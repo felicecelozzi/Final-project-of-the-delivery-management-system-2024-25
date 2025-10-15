@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mappa con Percorso e Indirizzi</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 1rem;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        form {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>API - CALCOLO PERCORSO</h2>
+
+    <form id="routeForm">
+        <label>
+            Indirizzo Partenza:
+            <input type="text" id="start_address" value="Piazza Duomo, Milano" required>
+        </label>
+        <label>
+            Indirizzo Destinazione:
+            <input type="text" id="end_address" value="Via Teramo 37, Pescara" required>
+        </label>
+        <button type="submit">Calcola Percorso</button>
+    </form>
+
+    <div id="info">
+        <p><strong>Distanza:</strong> <span id="distanza">-</span></p>
+        <p><strong>Durata stimata:</strong> <span id="durata">-</span></p>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- Questo script serve a passare la chiave API in modo sicuro -->
+    {{ api_key|json_script:"ors_api_key" }}
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const orsApiKey = JSON.parse(document.getElementById('ors_api_key').textContent);
+
+        const map = L.map('map').setView([45.4642, 9.1900], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        let routeLayer;
+        let startMarker, endMarker;
+
+        async function geocode(address) {
+            const url = `https://api.openrouteservice.org/geocode/search?api_key=${orsApiKey}&text=${encodeURIComponent(address)}`;
+            const res = await fetch(url);
+            const data = await res.json();
+
+            if (!res.ok || !data.features || data.features.length === 0) {
+                throw new Error(`Errore nel geocoding dell'indirizzo: ${address}`);
+            }
+
+            return data.features[0].geometry.coordinates; // [lon, lat]
+        }
+
+        document.getElementById('routeForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const startAddr = document.getElementById('start_address').value;
+            const endAddr = document.getElementById('end_address').value;
+
+            try {
+                const startCoords = await geocode(startAddr);
+                const endCoords = await geocode(endAddr);
+
+                const url = `/calcola-percorso/?start_lon=${startCoords[0]}&start_lat=${startCoords[1]}&end_lon=${endCoords[0]}&end_lat=${endCoords[1]}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (routeLayer) map.removeLayer(routeLayer);
+                if (startMarker) map.removeLayer(startMarker);
+                if (endMarker) map.removeLayer(endMarker);
+
+                routeLayer = L.geoJSON(data.routes[0].geometry, {
+                    style: { color: 'blue', weight: 5 }
+                }).addTo(map);
+
+                startMarker = L.marker([startCoords[1], startCoords[0]]).addTo(map).bindPopup("Partenza").openPopup();
+                endMarker = L.marker([endCoords[1], endCoords[0]]).addTo(map).bindPopup("Arrivo");
+
+                map.fitBounds(routeLayer.getBounds());
+
+                const distanzaKm = data.routes[0].summary.distance / 1000;
+                const durataMin = data.routes[0].summary.duration / 60;
+
+                document.getElementById('distanza').textContent = distanzaKm.toFixed(2) + " km";
+                document.getElementById('durata').textContent = durataMin.toFixed(1) + " min";
+
+            } catch (err) {
+                alert("Errore nel calcolo del percorso o nel geocoding.");
+            }
+        });
+    </script>
+</body>
+</html>

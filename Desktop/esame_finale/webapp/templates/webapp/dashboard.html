@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Di Gestione</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./static/dashboard.js"></script>
+
+  <style>
+    .tab-button.active {
+      background-color: #3b82f6;
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="bg-blue-100 min-h-screen p-0">
+  <!-- Barra di navigazione -->
+  <header class="bg-white shadow p-4 flex justify-between items-center navbar">
+    <div class="navbar-center">
+      <h1 class="text-2xl font-bold text-blue-600 justify-center">Sistema di Gestione</h1>
+    </div>
+    <li><a href="/login/" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-auto p-5 m-3">Logout</a>
+    </li>
+  </header>
+
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Tabs -->
+    <div class="mb-6">
+      <nav class="flex space-x-4 justify-center gap-2 p-5">
+        <button class="tab-button active px-4 py-2 rounded" data-tab="ordini">Ordini</button>
+        <button class="tab-button bg-gray-300 px-4 py-2 rounded" data-tab="corrieri">Corrieri</button>
+        <button class="tab-button bg-gray-300 px-4 py-2 rounded" data-tab="mezzi">Mezzi</button>
+        <button class="tab-button bg-gray-300 px-4 py-2 rounded" data-tab="consegne">Consegne</button>
+      </nav>
+    </div>
+
+    <!-- ORDINI -->
+    <div id="ordini" class="tab-content">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold">Lista Ordini</h2>
+        <li><a href="/registrazione/" class="bg-green-500 text-white px-4 py-2 rounded">+ Nuovo Ordine</a></li>
+      </div>
+      <table class="w-full bg-white shadow rounded overflow-hidden">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">Id ordine</th>
+            <th class="p-2 text-left">Indirizzo di consegna</th>
+            <th class="p-2 text-left">Data e ora di consegna</th>
+            <th class="p-2 text-left">Priorità</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2">001</td>
+            <td class="p-2">Roma</td>
+            <td class="p-2">19/05/2025 10:30</td>
+            <td class="p-2">Alta</td>
+          </tr>
+          <tr>
+            <td class="p-2">002</td>
+            <td class="p-2">Milano</td>
+            <td class="p-2">22/05/2025 12:00</td>
+            <td class="p-2">Media</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CORRIERI -->
+    <div id="corrieri" class="tab-content hidden">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold">Lista Corrieri</h2>
+        <li><a href="/registrazione/" class="bg-green-500 text-white px-4 py-2 rounded">+ Nuovo Corriere</a></li>
+      </div>
+      <table class="w-full bg-white shadow rounded overflow-hidden">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">Codice Corriere</th>
+            <th class="p-2 text-left">Nome</th>
+            <th class="p-2 text-left">Area di copertura</th>
+            <th class="p-2 text-left">Disponibilità</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2">C001</td>
+            <td class="p-2">Marco Rossi</td>
+            <td class="p-2">Nord</td>
+            <td class="p-2">Disponibile</td>
+          </tr>
+          <tr>
+            <td class="p-2">C002</td>
+            <td class="p-2">Luca Bianchi</td>
+            <td class="p-2">Centro</td>
+            <td class="p-2">Non disponibile</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MEZZI -->
+      <div id="mezzi" class="tab-content hidden">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold">Lista Mezzi</h2>
+        <li><a href="/registrazione/" class="bg-green-500 text-white px-4 py-2 rounded">+ Nuovo Mezzo</a></li>
+      </div>
+      <table class="w-full bg-white shadow rounded overflow-hidden">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">Codice mezzo</th>
+            <th class="p-2 text-left">Targa</th>
+            <th class="p-2 text-left">Capacità (kg)</th>
+            <th class="p-2 text-left">Capacità (m³)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2">M001</td>
+            <td class="p-2">Furgone</td>
+            <td class="p-2">500kg</td>
+            <td class="p-2">Marco Rossi</td>
+          </tr>
+          <tr>
+            <td class="p-2">M002</td>
+            <td class="p-2">Scooter</td>
+            <td class="p-2">100kg</td>
+            <td class="p-2">Luca Bianchi</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CONSEGNE -->
+    <div id="consegne" class="tab-content hidden">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold">Consegne</h2>
+      </div>
+      <table class="w-full bg-white shadow rounded overflow-hidden">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">ID Ordine</th>
+            <th class="p-2 text-left">Corriere</th>
+            <th class="p-2 text-left">Mezzo</th>
+            <th class="p-2 text-left">Stato</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2">001</td>
+            <td class="p-2">Marco Rossi</td>
+            <td class="p-2">Furgone</td>
+            <td class="p-2">Consegnato</td>
+          </tr>
+          <tr>
+            <td class="p-2">002</td>
+            <td class="p-2">Luca Bianchi</td>
+            <td class="p-2">Scooter</td>
+            <td class="p-2">In transito</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+<!-- Script tab switching -->
+<script>
+  const buttons = document.querySelectorAll(".tab-button");
+  const contents = document.querySelectorAll(".tab-content");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      const tab = button.dataset.tab;
+
+      buttons.forEach(btn => {
+        btn.classList.remove("active", "bg-blue-500", "text-white");
+        btn.classList.add("bg-gray-300");
+      });
+
+      button.classList.add("active", "bg-blue-500", "text-white");
+      button.classList.remove("bg-gray-300");
+
+      contents.forEach(content => {
+        content.classList.add("hidden");
+      });
+
+      document.getElementById(tab).classList.remove("hidden");
+    });
+  });
+</script>
+
+</html>

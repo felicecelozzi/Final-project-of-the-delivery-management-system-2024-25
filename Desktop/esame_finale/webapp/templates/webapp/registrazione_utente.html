@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrazione Utente</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-blue-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+    <h2 class="text-3xl font-bold text-center mb-5">Benvenuto!</h2>
+    <h2 class="text-1xl font-bold text-center mb-3">Crea un account</h2>
+
+    <form method="POST" action="{% url 'registrazione_utente' %}" class="space-y-4">
+        <div class="text-red-500 text-sm"></div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Nome</label>
+        <input type="text" name="nome"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Cognome</label>
+        <input type="text" name="cognome"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Numero di cellulare</label>
+        <input type="text" name="cellulare"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" name="email"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Password (almeno 6 caratteri)</label>
+        <input type="password" name="password"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Conferma Password</label>
+        <input type="password" name="confirm_password"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition">Registrati</button>
+    </form>
+  </div>
+</body>
+
+</html>
